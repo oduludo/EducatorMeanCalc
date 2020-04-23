@@ -55,19 +55,29 @@ def get_grades_from_webpage(educator_soup):
     for grade_container in grade_containers:
         grade_span = grade_container.find("span", class_=lambda cls: cls and "grade" in cls)
         grade_title = grade_container.find("a", class_="btn-link")
+        attempts = grade_container.find("span", class_=lambda cls: cls and "badge badge-attempts" in cls)
 
         if grade_title:
             grade_title = grade_title.text
 
         if grade_span:
+            grade_locked = grade_span.find("i", class_="fa fa-lock")
+
             if "data-content" in grade_span.attrs:
                 raw_grade = grade_span.attrs["data-content"]
 
                 if raw_grade != "-":
                     raw_grades.append(raw_grade)
 
+                    grade_locked_symbol = "\U0001F512" if grade_locked else " "
+
+                    if attempts:
+                        attempts_txt = attempts.text
+                    else:
+                        attempts_txt = " "
+
                     if grade_title:
-                        print("\t{:40s} {:40s}".format(raw_grade, grade_title))
+                        print("\t{:20s} {:4s} {:2s} {:40s}".format(raw_grade, grade_locked_symbol, attempts_txt, grade_title))
 
     return raw_grades
 
