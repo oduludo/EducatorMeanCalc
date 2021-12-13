@@ -1,5 +1,5 @@
 beautifulsoup4==4.9.0
-lxml==4.5.0
+lxml==4.6.5
 selenium==3.141.0
 soupsieve==2.0
 urllib3==1.25.9
